@@ -1,15 +1,16 @@
 const { exec } = require("child_process");
 const { Centrifuge } = require('centrifuge');
-// const { error } = require("console");
+const { ws_address, getToken } = require('./confdata');
 global.WebSocket = require('ws');
 
-const ws_address = 'confidential'; //edit by dev
-const ws_token = '123'; //edit by dev
 const client = new Centrifuge(ws_address, {
-  token: ws_token
+  token: 'JWT-GENERATED-ON-BACKEND-SIDE',
+  getToken: function(ctx) {
+    return getToken('/centrifuge/connection_token', ctx);
+  }
 });
 
-const sub = client.newSubscription('channel');
+const sub = client.newSubscription('staging');
 
 sub.on('publication', function(ctx) {
   const data_obj = ctx.data;
@@ -22,12 +23,48 @@ sub.on('publication', function(ctx) {
   // Port LED MiniPC
   const PortLedFront = '/dev/ttyS0';
   const PortLedRight = '/dev/ttyS1';
+  const PortLedRear = '/dev/ttyS2';
   const PortLedLeft = '/dev/ttyS3';
   //Port COM kiri depan
-  const PortLedRear = '/dev/ttyS2';
   console.log(DataLedRear);
-  //LED Belakang
+  //LED DEPAN
+  exec(`echo "${DataLedFront}" > ${PortLedFront}`, (error, stdout, stderr) => {
+    if (error) {
+      console.log(`error: ${error.message}`);
+      return;
+    }
+    if (stderr) {
+      console.log(`stderr: ${stderr}`);
+      return;
+    }
+    console.log(`stdout: ${stdout}`);
+  })
+  //LED BELAKANG
+  exec(`echo "${DataLedRight}" > ${PortLedRight}`, (error, stdout, stderr) => {
+    if (error) {
+      console.log(`error: ${error.message}`);
+      return;
+    }
+    if (stderr) {
+      console.log(`stderr: ${stderr}`);
+      return;
+    }
+    console.log(`stdout: ${stdout}`);
+  })
+  //LED SAMPING KANAN
   exec(`echo "${DataLedRear}" > ${PortLedRear}`, (error, stdout, stderr) => {
+    if (error) {
+      console.log(`error: ${error.message}`);
+      return;
+    }
+    if (stderr) {
+      console.log(`stderr: ${stderr}`);
+      return;
+    }
+    console.log(`stdout: ${stdout}`);
+  })
+  //LED SAMPING KIRI
+  exec(`echo "${DataLedLeft}" > ${PortLedLeft}`, (error, stdout, stderr) => {
     if (error) {
       console.log(`error: ${error.message}`);
       return;
