@@ -1,4 +1,4 @@
-export const ws_address = 'ws://180.250.145.106:8000/connection/websocket';
+export const ws_address = 'ws://confidential';
 export default { ws_address: ws_address, ws_token: ws_token }
 
 function getToken(url, ctx) {
