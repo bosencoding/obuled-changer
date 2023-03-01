@@ -18,7 +18,10 @@ sub.on('publication', function(ctx) {
   console.log(data_json);
   console.log(typeof (data_json));
   const data_led = JSON.parse(data_json);
-  const DataLedRear = "[D" + data_led.terminal;
+  const DataLedRear = "[D" + data_led.textBelakang;
+  const DataLedFront= "[D" + data_led.textDepan;
+  const DataLedRight = "[D" + data_led.textKanan;
+  const DataLedLeft = "[D" + data_led.textKiri;
   //const file_echo = ' /home/mashudi/test.txt';
   // Port LED MiniPC
   const PortLedFront = '/dev/ttyS0';
